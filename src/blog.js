@@ -1,35 +1,22 @@
-const URL="https://niravkpatel28.github.io/json-data-server/blogs/blogs.json";
+
+import {blogImage} from "./component/imageBlog.js";
+import{ contentBlog} from "./component/contentBlog.js"
 
 
-const findById=(id,blogObjList)=>{
+
+export const mainsection=(title,content,imageUrl)=>{
+    const mainTag=document.createElement("main");
+    const blogDiv=document.createElement("div")
+    blogDiv.classList.add("blog");
     
-    const blogObj=blogObjList.find((blog)=>{
-        return blog.id==id
-    });
-    display(blogObj,blogObjList);
-    
+    const h1TagBlog=document.createElement("h1")
+    h1TagBlog.innerText=title;
+
+
+    blogDiv.append(h1TagBlog,blogImage(imageUrl),contentBlog(content));
+
+    mainTag.appendChild(blogDiv)
+
+    return mainTag;
+
 }
-
-
-async function getData(url){
-    try{
-        const blogDataResponse= await fetch(url)
-        
-        if(blogDataResponse.ok){
-            const jsonData= await blogDataResponse.json();
-            return jsonData;
-        }
-        
-    }catch(err){
-        console.log(err);
-    }
-}
-
-getData(URL).then(
-    jsonData=>{
-        display(jsonData[0],jsonData)
-    } 
-).catch(err=>{
-    console.log(err)
-})
-
